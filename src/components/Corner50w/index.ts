@@ -1,1 +1,0 @@
-export {Corner50w} from './Corner50w';

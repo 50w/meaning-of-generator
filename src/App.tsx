@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { Grid, Founder } from "./components";
-import { Person } from "./content/types";
-import { getRecommendationByFounder } from "./content/data";
 
 import "./App.css";
 import "./mvp.css";
@@ -12,16 +10,8 @@ import "./mvp.css";
 function App() {
   const [selected, setSelected] = useState<Person | undefined>();
 
-  const founders = getRecommendationByFounder();
-  const readmePath = require("../Readme.md");
-  console.log(readmePath)
-  fetch(readmePath)
-    .then(response => {
-      return response.text()
-    })
-    .then(text => {
-      console.log(text)
-    })
+  const location = useLocation();
+  
   const contributors = [
     { name: "Nick", url: "https://www.github.com/nicklewanowicz" },
     { name: "Connor", url: "https://www.github.com/foopert" },
