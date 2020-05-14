@@ -26,7 +26,7 @@ function App() {
       <Router>
           <Switch>
             {/* Using the `component` prop */}
-            <Route path="/:slug" component={AcronymComponent} />
+            <Route component={AcronymComponent} />
           </Switch>
       </Router>
       <div style={{margin: 'auto'}}>{renderContributors(contributors)}</div>
