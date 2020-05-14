@@ -1,68 +1,37 @@
 import React, { useState } from "react";
 
-import { useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 
-import { Grid, Founder } from "./components";
+import {AcronymComponent} from './components';
 
 import "./App.css";
 import "./mvp.css";
 
 function App() {
-  const [acronym, setAcronym] = useState<string>('');
+  const [acronym, setAcronym] = useState<string>("");
 
-  const location = useLocation();
   const contributors = [
     { name: "Nick", url: "https://www.github.com/nicklewanowicz" },
-    { name: "Connor", url: "https://www.github.com/foopert" },
     { name: "50w", url: "https://www.github.com/50w" },
   ];
-  
-  
+
+  console.log(location);
 
   return (
-    <div>
-      <input />
+    <div style={{display: 'flex', flexDirection: 'column', margin: 'auto', width: '100%'}}>
+      <Router>
+          <Switch>
+            {/* Using the `component` prop */}
+            <Route path="/:slug" component={AcronymComponent} />
+          </Switch>
+      </Router>
+      <div style={{margin: 'auto'}}>{renderContributors(contributors)}</div>
     </div>
   );
-
-  function renderHeader(selected: Person | undefined) {
-    return (
-      <header>
-        <nav>
-          <h1>FounderShelf</h1>
-          <ul>
-            <li>
-              <a
-                href="https://www.github.com/50w/foundershelf"
-                target="_blank"
-              >
-                GitHub ↗
-              </a>
-            </li>
-          </ul>
-        </nav>
-        {!selected && (
-          <>
-            <section>
-              <aside style={{ width: "auto" }}>
-                <h2>What is Founder Shelfspace?</h2>
-                <div style={{ flexDirection: "row" }}>
-                  <img height={100} src="reading.svg" />
-                  <p>
-                    What does the bookshelf of the worlds most successful
-                    founders, entrepreneurs, and investors look like? Get
-                    context on how they think and browse the growing library of
-                    books they recommend.
-                  </p>
-                </div>
-              </aside>
-            </section>
-            <hr />
-          </>
-        )}
-      </header>
-    );
-  }
 
   function renderContributors(contributors: { name: string; url: string }[]) {
     return (
