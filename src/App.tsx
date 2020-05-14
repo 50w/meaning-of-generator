@@ -8,35 +8,20 @@ import "./App.css";
 import "./mvp.css";
 
 function App() {
-  const [selected, setSelected] = useState<Person | undefined>();
+  const [acronym, setAcronym] = useState<string>('');
 
   const location = useLocation();
-  
   const contributors = [
     { name: "Nick", url: "https://www.github.com/nicklewanowicz" },
     { name: "Connor", url: "https://www.github.com/foopert" },
     { name: "50w", url: "https://www.github.com/50w" },
   ];
   
-  function select(founder: Person | undefined) {
-    setSelected(founder)
-    window.scrollTo(0, 0)
-  }
+  
 
   return (
     <div>
-      {renderHeader(selected)}
-      {selected && (
-        <Founder founder={selected} unselect={() => select(undefined)} />
-      )}
-      {selected && <section><h1>View more recommendations:</h1></section>}
-        <Grid
-          founders={founders}
-          selectFounder={(founder: Person) => select(founder)}
-        />
-      <section style={{ padding: "2rem" }}>
-        {renderContributors(contributors)}
-      </section>
+      <input />
     </div>
   );
 
