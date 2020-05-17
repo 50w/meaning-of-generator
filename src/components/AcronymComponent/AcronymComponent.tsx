@@ -4,17 +4,15 @@ import { useHistory, useLocation } from "react-router-dom";
 import Random from "random-words";
 
 export function AcronymComponent() {
-  const { pathname } = useLocation();
+  const location = useLocation();
   const history = useHistory();
+  const { search } = location;
 
-  const term = pathname.slice(1);
-  if (!term) {
-      history.push('wfh')
-  }
+  const term = getTerm(search);
+
   const words = Random(1000);
   console.log(words);
   return (
-
     <div style={{ margin: "auto" }}>
       <div>
         <form>
@@ -22,8 +20,14 @@ export function AcronymComponent() {
             <b>Search acronym:</b>
           </p>
 
-          <input style={{ width: "100%" }} value={term} onChange={(e) => history.push(e.target.value)} />
-          <h3>"{pathname.slice(1)}" means:</h3>
+          <input
+            style={{ width: "100%" }}
+            value={term}
+            onChange={(e) =>
+              history.push({ search: `?term=${e.target.value}` })
+            }
+          />
+          <h3>"{term}" means:</h3>
           <h1>{getAcronym(term, words)}</h1>
         </form>
       </div>
@@ -50,4 +54,9 @@ export function AcronymComponent() {
     }
     return meaning.join(" ");
   }
+}
+
+function getTerm(search: string) {
+  const term = search.slice(1).split("=").slice(-1)[0]
+  return typeof term === 'string'? term : "wfh";
 }
