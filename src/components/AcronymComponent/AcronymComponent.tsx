@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useHistory, useLocation } from "react-router-dom";
-import Random from "random-words";
+import {wordList as words} from "../../words";
 
 export function AcronymComponent() {
   const location = useLocation();
@@ -10,7 +10,6 @@ export function AcronymComponent() {
 
   const term = getTerm(search);
 
-  const words = Random(1000);
   console.log(words);
   return (
     <div style={{ margin: "auto" }}>
@@ -21,23 +20,24 @@ export function AcronymComponent() {
           </p>
 
           <input
-            style={{ width: "100%" }}
+            style={{ width: "90%" }}
             value={term}
             onChange={(e) =>
               history.push({ search: `?term=${e.target.value}` })
             }
           />
           <h3>"{term}" means:</h3>
-          <h1>{getAcronym(term, words)}</h1>
+          <h1>{getAcronym(term)}</h1>
         </form>
       </div>
     </div>
   );
 
-  function getAcronym(term: string, words: string[]) {
+  function getAcronym(term: string) {
     const meaning = term.split("");
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i];
+    let i  = 0
+    while (true) {
+      const word = words[i%words.length];
       for (let j = 0; j < meaning.length; j++) {
         const element = meaning[j];
         if (
@@ -48,10 +48,12 @@ export function AcronymComponent() {
           meaning[j] = word;
         }
       }
-      if (meaning.every((el) => el.length > 1)) {
+      if (meaning.every((el) => el.length > 1) || i > 10000000) {
         break;
       }
-    }
+      i+=meaning.length
+    } 
+
     return meaning.join(" ");
   }
 }
